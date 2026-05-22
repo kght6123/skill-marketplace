@@ -7,6 +7,7 @@ Claude Code / Copilot CLI / Codex CLI / OpenCode に対応した Agent Skills �
 | Skill | Description |
 |-------|-------------|
 | [example-skill](./plugins/example-skill/) | スキルの作成・フォーマット方法を説明するサンプルスキル |
+| [agy-review](./plugins/agy-review/) | agy (Antigravity CLI) を使って変更ファイルのコードレビューを実行するスキル |
 
 ## インストール方法
 

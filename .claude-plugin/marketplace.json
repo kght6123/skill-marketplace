@@ -12,6 +12,12 @@
       "source": "./plugins/example-skill",
       "category": "development",
       "description": "An example skill demonstrating how to create and format Agent Skills"
+    },
+    {
+      "name": "agy-review",
+      "source": "./plugins/agy-review",
+      "category": "development",
+      "description": "agy (Antigravity CLI) を使って変更ファイルのコードレビューを実行するスキル"
     }
   ]
 }

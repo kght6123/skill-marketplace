@@ -1,0 +1,8 @@
+{
+  "name": "agy-review",
+  "description": "agy (Antigravity CLI) を使って変更ファイルのコードレビューを実行するスキル",
+  "author": {
+    "name": "kght6123",
+    "url": "https://github.com/kght6123"
+  }
+}
