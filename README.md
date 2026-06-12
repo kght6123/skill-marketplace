@@ -8,6 +8,7 @@ Claude Code / Copilot CLI / Codex CLI / OpenCode に対応した Agent Skills �
 |-------|-------------|
 | [example-skill](./plugins/example-skill/) | スキルの作成・フォーマット方法を説明するサンプルスキル |
 | [agy-review](./plugins/agy-review/) | agy (Antigravity CLI) を使って変更ファイルのコードレビューを実行するスキル |
+| [hermes-tweet](./plugins/hermes-tweet/) | Hermes Agent 用 X/Twitter プラグイン Hermes Tweet の導入・設定・安全な利用手順 |
 
 ## インストール方法
 
