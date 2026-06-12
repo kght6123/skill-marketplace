@@ -18,6 +18,12 @@
       "source": "./plugins/agy-review",
       "category": "development",
       "description": "agy (Antigravity CLI) を使って変更ファイルのコードレビューを実行するスキル"
+    },
+    {
+      "name": "hermes-tweet",
+      "source": "./plugins/hermes-tweet",
+      "category": "automation",
+      "description": "Install and use Hermes Tweet, a Hermes Agent X/Twitter plugin"
     }
   ]
 }
