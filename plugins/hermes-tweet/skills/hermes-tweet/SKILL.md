@@ -24,9 +24,11 @@ hermes plugins install Xquik-dev/hermes-tweet --enable
 PyPI から Hermes Agent の仮想環境へ入れる場合:
 
 ```bash
-uv pip install --python ~/.hermes/hermes-agent/venv/bin/python hermes-tweet
+~/.hermes/hermes-agent/venv/bin/pip install hermes-tweet
 hermes plugins enable hermes-tweet
 ```
+
+Windows では仮想環境内の `Scripts\pip.exe` を使います。
 
 インストール後は次で有効化状態を確認します:
 
@@ -37,7 +39,7 @@ hermes tools list
 
 ## 設定
 
-読み取りには `XQUIK_API_KEY` が必要です。対話式インストールでは Hermes が `~/.hermes/.env` への保存を促します。非対話式インストールでは、Hermes を起動する環境か `~/.hermes/.env` に設定します。
+読み取りには `XQUIK_API_KEY` が必要です。対話式インストールでは Hermes が `~/.hermes/.env` への保存を促します。非対話式インストールでは、Hermes を起動する環境の環境変数、または `~/.hermes/.env` に設定します。
 
 ```bash
 export XQUIK_API_KEY="<your-xquik-api-key>"
