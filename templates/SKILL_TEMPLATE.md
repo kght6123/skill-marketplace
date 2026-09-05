@@ -27,7 +27,12 @@ plugins/
 ```json
 {
   "name": "your-plugin-name",
-  "description": "スキル群の簡潔な説明"
+  "description": "スキル群の簡潔な説明",
+  "version": "1.0.0",
+  "author": {
+    "name": "your-github-account",
+    "url": "https://github.com/your-github-account"
+  }
 }
 ```
 

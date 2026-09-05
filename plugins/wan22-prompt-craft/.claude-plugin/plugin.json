@@ -1,6 +1,7 @@
 {
   "name": "wan22-prompt-craft",
   "description": "Wan2.2（Alibaba製オープンソース動画/画像生成モデル）向けのプロンプトを新規作成・修正・改善するスキル",
+  "version": "1.0.0",
   "author": {
     "name": "kght6123",
     "url": "https://github.com/kght6123"
