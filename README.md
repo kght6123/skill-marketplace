@@ -15,77 +15,116 @@ Claude Code / Copilot CLI / Codex CLI / OpenCode に対応した Agent Skills �
 
 ## インストール方法
 
-### Claude Code — `/plugin` コマンド経由（推奨）
+インストール方法は3通りあります。どれか1つでOKです。
+
+| 方法 | 向いている場面 |
+|------|---------------|
+| [① `npx skills`](#-npx-skills--全ツール共通おすすめ) | Claude Code 以外のツールでも使いたい／一番手軽 |
+| [② Claude Code のプラグイン](#-claude-code--plugin-マーケットプレイス) | Claude Code だけで使う／更新もまとめて管理したい |
+| [③ 手動コピー](#-手動コピーgit-clone) | ネットワーク制限下／中身を書き換えて使いたい |
+
+### ① `npx skills` — 全ツール共通（おすすめ）
+
+[Skills CLI](https://github.com/vercel-labs/skills)（`npx skills`）は Agent Skills 用のパッケージマネージャです。インストール済みのツールを自動検出して、それぞれが読むディレクトリへ配置してくれます。このリポジトリはマーケットプレイス定義とは無関係に `SKILL.md` を走査してもらえるので、そのまま指定できます。
+
+```bash
+# 収録スキルの一覧を確認（インストールはしない）
+npx skills add kght6123/skill-marketplace-template --list
+
+# 対話形式で選んでカレントプロジェクトにインストール
+npx skills add kght6123/skill-marketplace-template
+
+# スキル名を指定して、ユーザー全体（-g）にインストール
+npx skills add kght6123/skill-marketplace-template --skill wan22-prompt-craft -g
+
+# 全スキルを検出した全ツールへ一括インストール
+npx skills add kght6123/skill-marketplace-template --all
+```
+
+**配置先**: 実体は `.agents/skills/<skill>`（`-g` 付きなら `~/.agents/skills/<skill>`）に置かれ、そこから Claude Code 用に `.claude/skills/`（`-g` なら `~/.claude/skills/`）へシンボリックリンクが張られます。`.agents/skills/` は Copilot CLI・Codex CLI・OpenCode が共通で読むディレクトリなので、これ1か所で4ツールに効きます。シンボリックリンクを避けたい場合は `--copy` を付けてください。
+
+**その他のコマンド**
+
+| コマンド | 説明 |
+|---------|------|
+| `npx skills list` | インストール済みスキルの一覧（ツール別） |
+| `npx skills update [skill]` | 最新版へ更新 |
+| `npx skills remove <skill>` | アンインストール |
+| `npx skills find <keyword>` | 公開スキルを検索（カタログ: [skills.sh](https://www.skills.sh/)） |
+| `npx skills use kght6123/skill-marketplace-template@wan22-prompt-craft \| claude` | インストールせずその場かぎりで使う |
+
+**主なオプション**: `-s, --skill <names...>`（スキル指定、`'*'` で全件）／ `-a, --agent <agents...>`（`claude-code` `codex` `opencode` `github-copilot` など対象ツールを限定）／ `-g, --global`（ユーザー全体）／ `-l, --list`（一覧のみ）／ `--copy`（コピー配置）／ `-y, --yes`（確認プロンプトを省略）。
+
+### ② Claude Code — `/plugin` マーケットプレイス
+
+Claude Code で使うなら、プラグインとして入れると `/plugin` 側で更新・有効無効まで管理できます。
 
 ```
 /plugin marketplace add kght6123/skill-marketplace-template
-/plugin install example-skill@skill-marketplace-template
+/plugin install wan22-prompt-craft@skill-marketplace-template
 ```
 
-### Copilot CLI — 手動コピー
+`/plugin` だけを実行すると管理UIが開き、一覧から選んでインストールすることもできます。
 
-Copilot CLI はスキルを以下のディレクトリから自動検出します：
-
-| スコープ | ディレクトリ | 備考 |
-|---------|------------|------|
-| 個人（Claude Code 共用） | `~/.claude/skills/` | Claude Code と両方に効く |
-| 個人（Copilot 専用） | `~/.copilot/skills/` | |
-| プロジェクト（Claude Code 共用） | `.claude/skills/` | リポジトリルートに配置 |
-| プロジェクト（Copilot 専用） | `.github/skills/` | リポジトリルートに配置 |
+シェルから非対話で入れる場合:
 
 ```bash
-# リポジトリをクローン
+claude plugin marketplace add kght6123/skill-marketplace-template
+claude plugin install wan22-prompt-craft@skill-marketplace-template
+
+# インストール先スコープは --scope user（既定）/ project / local
+claude plugin install wan22-prompt-craft@skill-marketplace-template --scope project
+```
+
+管理コマンド: `claude plugin list` / `claude plugin update <plugin>` / `claude plugin uninstall <plugin>` / `claude plugin marketplace update`（マーケットプレイス定義の再取得）。
+
+チームのリポジトリ全員に配りたい場合は、`.claude/settings.json` に書いておくと各自の初回起動時に自動で導入されます。
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "skill-marketplace-template": {
+      "source": {
+        "source": "github",
+        "repo": "kght6123/skill-marketplace-template"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "wan22-prompt-craft@skill-marketplace-template": true
+  }
+}
+```
+
+詳細は [Claude Code のプラグインマーケットプレイスのドキュメント](https://code.claude.com/docs/en/plugin-marketplaces) を参照してください。
+
+### ③ 手動コピー（git clone）
+
+各ツールは所定のディレクトリを自動で走査するので、`SKILL.md` を含むディレクトリごとコピーするだけでも動きます。どのディレクトリがどのツールに効くかは [早見表](#ツール別スキルディレクトリ早見表) を参照してください。
+
+```bash
 git clone https://github.com/kght6123/skill-marketplace-template.git
 cd skill-marketplace-template
 
-# 個人スキルとしてインストール（Claude Code + Copilot CLI 両方に効く）
-cp -r plugins/example-skill/skills/example-skill ~/.claude/skills/
+# Copilot CLI・Codex CLI・OpenCode 共通のユーザースキルとして入れる
+mkdir -p ~/.agents/skills
+cp -r plugins/wan22-prompt-craft/skills/wan22-prompt-craft ~/.agents/skills/
 
-# または Copilot CLI 専用ディレクトリへ
-cp -r plugins/example-skill/skills/example-skill ~/.copilot/skills/
+# Claude Code のユーザースキルとして入れる
+mkdir -p ~/.claude/skills
+cp -r plugins/wan22-prompt-craft/skills/wan22-prompt-craft ~/.claude/skills/
+
+# プロジェクト限定にしたい場合は、リポジトリルートの .agents/skills/ や .claude/skills/ へ
 ```
 
-インストール後、`copilot` を起動して `/skills` コマンドで認識を確認できます。
+コピー後はツールを起動し直してください。Copilot CLI は `/skills` コマンドで認識状況を確認できます。
 
-### Codex CLI — 手動コピー
+各ツールの公式ドキュメント:
 
-Codex CLI はスキルを以下のディレクトリから自動検出します：
-
-| スコープ | ディレクトリ | 用途 |
-|---------|------------|------|
-| ユーザー | `~/.agents/skills/` | 任意のリポジトリで使えるユーザー個人のスキル（OpenCode と共用） |
-| プロジェクト | `.agents/skills/` | リポジトリルートに配置するチーム共有スキル |
-| システム | `/etc/codex/skills/` | システム全体で共有（管理者向け） |
-
-```bash
-# ユーザースキルとしてインストール
-cp -r plugins/example-skill/skills/example-skill ~/.agents/skills/
-```
-
-詳細は [Codex Skills ドキュメント](https://developers.openai.com/codex/skills/#where-to-save-skills) を参照してください。
-
-### OpenCode — 手動コピー
-
-OpenCode はスキルを以下のディレクトリから自動検出します：
-
-| スコープ | ディレクトリ | 用途 |
-|---------|------------|------|
-| ユーザー | `~/.config/opencode/skills/` | OpenCode 専用のユーザースキル |
-| ユーザー | `~/.claude/skills/` | Claude Code・Copilot CLI と共用 |
-| ユーザー | `~/.agents/skills/` | Codex CLI と共用 |
-| プロジェクト | `.opencode/skills/` | OpenCode 専用のプロジェクトスキル |
-| プロジェクト | `.claude/skills/` | Claude Code・Copilot CLI と共用 |
-| プロジェクト | `.agents/skills/` | Codex CLI と共用 |
-
-```bash
-# ユーザースキルとしてインストール（Codex CLI と共用）
-cp -r plugins/example-skill/skills/example-skill ~/.agents/skills/
-
-# または Claude Code・Copilot CLI とも共用する場合
-cp -r plugins/example-skill/skills/example-skill ~/.claude/skills/
-```
-
-詳細は [OpenCode Skills ドキュメント](https://opencode.ai/docs/skills/) を参照してください。
+- [Claude Code — Plugin marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)
+- [GitHub Copilot — Agent skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills)
+- [Codex — Skills](https://developers.openai.com/codex/skills/)
+- [OpenCode — Skills](https://opencode.ai/docs/skills/)
 
 ---
 
@@ -94,15 +133,17 @@ cp -r plugins/example-skill/skills/example-skill ~/.claude/skills/
 | ディレクトリ | Claude Code | Copilot CLI | Codex CLI | OpenCode |
 |-------------|:-----------:|:-----------:|:---------:|:--------:|
 | `~/.claude/skills/` | ✅ | ✅ | — | ✅ |
-| `~/.agents/skills/` | — | — | ✅ | ✅ |
+| `~/.agents/skills/` | — | ✅ | ✅ | ✅ |
 | `~/.copilot/skills/` | — | ✅ | — | — |
 | `~/.config/opencode/skills/` | — | — | — | ✅ |
+| `/etc/codex/skills/` | — | — | ✅ | — |
 | `.claude/skills/` | ✅ | ✅ | — | ✅ |
-| `.agents/skills/` | — | — | ✅ | ✅ |
+| `.agents/skills/` | — | ✅ | ✅ | ✅ |
 | `.github/skills/` | — | ✅ | — | — |
 | `.opencode/skills/` | — | — | — | ✅ |
 
-> `~/.claude/skills/` に置くと Claude Code・Copilot CLI・OpenCode の3ツールに同時に効きます。
+> `~/` 始まりはユーザー個人用、それ以外はリポジトリルートに置くプロジェクト用です。
+> `.agents/skills/` は Copilot CLI・Codex CLI・OpenCode の共通置き場、`~/.claude/skills/` は Claude Code・Copilot CLI・OpenCode の3ツールに同時に効きます。Claude Code だけは `.agents/skills/` を読まないため、`npx skills` はここへ自動でシンボリックリンクを張ります。
 
 ## リポジトリ構造
 
@@ -113,25 +154,33 @@ skill-marketplace-template/
 ├── .gitignore
 ├── .claude-plugin/
 │   └── marketplace.json               # マーケットプレイス定義
+├── templates/
+│   └── SKILL_TEMPLATE.md              # 新規スキル用テンプレート
 └── plugins/
     └── example-skill/                 # 各スキルは独立したプラグイン
         ├── .claude-plugin/
         │   └── plugin.json            # プラグインメタデータ
         ├── skills/
         │   └── example-skill/
-        │       └── SKILL.md           # スキル本体
-        └── commands/
-            └── example-skill.md       # スラッシュコマンド定義
+        │       ├── SKILL.md           # スキル本体
+        │       └── references/        # 任意: 参照ドキュメント
+        ├── commands/                  # 任意: スラッシュコマンド定義
+        │   └── example-skill.md
+        └── tests/                     # 任意: スキルのテストケース
+            └── test_cases.json
 ```
 
 ## 新しいスキルを追加するには
 
-1. `plugins/<skill-name>/` ディレクトリを作成
-2. `plugins/<skill-name>/.claude-plugin/plugin.json` にプラグイン定義を記述
+1. `plugins/<skill-name>/` ディレクトリを作成（[templates/SKILL_TEMPLATE.md](./templates/SKILL_TEMPLATE.md) が雛形）
+2. `plugins/<skill-name>/.claude-plugin/plugin.json` にプラグイン定義を記述（`name` / `description` / `version` / `author`）
 3. `plugins/<skill-name>/skills/<skill-name>/SKILL.md` にスキル本体を記述（[example-skill](./plugins/example-skill/skills/example-skill/SKILL.md) を参照）
 4. 必要であれば `plugins/<skill-name>/commands/<skill-name>.md` にスラッシュコマンドを追加
 5. `.claude-plugin/marketplace.json` の `plugins` 配列にエントリを追加
 6. このREADMEのスキル一覧テーブルを更新
+7. `claude plugin validate .` で定義を検証
+
+`npx skills` からのインストールはリポジトリ内の `SKILL.md` を走査して行われるため、`marketplace.json` への登録は Claude Code のプラグインとして配る場合にのみ必要です。
 
 ## ライセンス
 
