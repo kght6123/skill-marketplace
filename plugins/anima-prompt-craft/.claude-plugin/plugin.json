@@ -1,0 +1,8 @@
+{
+  "name": "anima-prompt-craft",
+  "description": "Anima（CircleStone Labs × Comfy Org の2Bアニメ特化 text-to-image モデル）向けのプロンプトを新規作成・改良・診断するスキル",
+  "author": {
+    "name": "kght6123",
+    "url": "https://github.com/kght6123"
+  }
+}

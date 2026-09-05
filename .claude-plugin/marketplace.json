@@ -18,6 +18,30 @@
       "source": "./plugins/agy-review",
       "category": "development",
       "description": "agy (Antigravity CLI) を使って変更ファイルのコードレビューを実行するスキル"
+    },
+    {
+      "name": "anima-prompt-craft",
+      "source": "./plugins/anima-prompt-craft",
+      "category": "creative",
+      "description": "Anima（CircleStone Labs × Comfy Org の2Bアニメ特化 text-to-image モデル）向けのプロンプトを新規作成・改良・診断するスキル"
+    },
+    {
+      "name": "minimax-h3-prompt-craft",
+      "source": "./plugins/minimax-h3-prompt-craft",
+      "category": "creative",
+      "description": "MiniMax H3（音声付き動画生成モデル）向けのプロンプトを新規作成・改良するスキル"
+    },
+    {
+      "name": "wan22-prompt-craft",
+      "source": "./plugins/wan22-prompt-craft",
+      "category": "creative",
+      "description": "Wan2.2（Alibaba製オープンソース動画/画像生成モデル）向けのプロンプトを新規作成・修正・改善するスキル"
+    },
+    {
+      "name": "sdxl-original-character-prompt-craft",
+      "source": "./plugins/sdxl-original-character-prompt-craft",
+      "category": "creative",
+      "description": "特定のオリジナルキャラクター向けにSDXL用プロンプト（ポジティブ＋ネガティブ）を生成・改良するスキル"
     }
   ]
 }

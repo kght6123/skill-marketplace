@@ -1,0 +1,8 @@
+{
+  "name": "sdxl-original-character-prompt-craft",
+  "description": "特定のオリジナルキャラクター向けにSDXL用プロンプト（ポジティブ＋ネガティブ）を生成・改良するスキル",
+  "author": {
+    "name": "kght6123",
+    "url": "https://github.com/kght6123"
+  }
+}
