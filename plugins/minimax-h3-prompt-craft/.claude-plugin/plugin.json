@@ -1,0 +1,8 @@
+{
+  "name": "minimax-h3-prompt-craft",
+  "description": "MiniMax H3（音声付き動画生成モデル）向けのプロンプトを新規作成・改良するスキル",
+  "author": {
+    "name": "kght6123",
+    "url": "https://github.com/kght6123"
+  }
+}

@@ -8,6 +8,10 @@ Claude Code / Copilot CLI / Codex CLI / OpenCode に対応した Agent Skills �
 |-------|-------------|
 | [example-skill](./plugins/example-skill/) | スキルの作成・フォーマット方法を説明するサンプルスキル |
 | [agy-review](./plugins/agy-review/) | agy (Antigravity CLI) を使って変更ファイルのコードレビューを実行するスキル |
+| [anima-prompt-craft](./plugins/anima-prompt-craft/) | Anima（CircleStone Labs × Comfy Org の2Bアニメ特化 text-to-image モデル）向けのプロンプトを新規作成・改良・診断するスキル |
+| [minimax-h3-prompt-craft](./plugins/minimax-h3-prompt-craft/) | MiniMax H3（音声付き動画生成モデル）向けのプロンプトを新規作成・改良するスキル |
+| [wan22-prompt-craft](./plugins/wan22-prompt-craft/) | Wan2.2（Alibaba製オープンソース動画/画像生成モデル）向けのプロンプトを新規作成・修正・改善するスキル |
+| [sdxl-original-character-prompt-craft](./plugins/sdxl-original-character-prompt-craft/) | 特定のオリジナルキャラクター向けにSDXL用プロンプト（ポジティブ＋ネガティブ）を生成・改良するスキル |
 
 ## インストール方法
 
