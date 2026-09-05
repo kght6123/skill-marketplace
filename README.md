@@ -173,7 +173,7 @@ skill-marketplace-template/
 ## 新しいスキルを追加するには
 
 1. `plugins/<skill-name>/` ディレクトリを作成（[templates/SKILL_TEMPLATE.md](./templates/SKILL_TEMPLATE.md) が雛形）
-2. `plugins/<skill-name>/.claude-plugin/plugin.json` にプラグイン定義を記述（`name` / `description` / `version` / `author`。`version` が無いと `claude plugin validate` が警告します）
+2. `plugins/<skill-name>/.claude-plugin/plugin.json` にプラグイン定義を記述（`name` / `description` / `version` / `author`）
 3. `plugins/<skill-name>/skills/<skill-name>/SKILL.md` にスキル本体を記述（[example-skill](./plugins/example-skill/skills/example-skill/SKILL.md) を参照）
 4. 必要であれば `plugins/<skill-name>/commands/<skill-name>.md` にスラッシュコマンドを追加
 5. `.claude-plugin/marketplace.json` の `plugins` 配列にエントリを追加
